@@ -10,11 +10,11 @@
   to = "/index.html"
   status = 200
 
-# Optional: Add security headers
+# Security headers with corrected CSP for Clerk and Render
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://clerk.com https://*.clerk.accounts.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.clerk.accounts.dev https://*.onrender.com https://*.clerk.com; img-src 'self' data: https://clerk.com https://img.clerk.com;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' blob: https://clerk.com https://*.clerk.accounts.dev; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.clerk.accounts.dev https://complaintiq.onrender.com https://*.clerk.com; img-src 'self' data: https://clerk.com https://img.clerk.com;"
