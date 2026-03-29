@@ -10,8 +10,16 @@
 
 import axios from "axios";
 
+let rawBaseUrl = import.meta.env.VITE_API_BASE_URL || "/api";
+
+// ── Auto-fix for common deployment URL mistakes ─────────────────────────────
+// If the URL is provided (e.g. from Render) but doesn't end in /api, append it.
+if (rawBaseUrl.startsWith("http") && !rawBaseUrl.endsWith("/api")) {
+  rawBaseUrl = rawBaseUrl.replace(/\/$/, "") + "/api";
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
+  baseURL: rawBaseUrl,
   headers: { "Content-Type": "application/json" },
   timeout: 15000,
 });
