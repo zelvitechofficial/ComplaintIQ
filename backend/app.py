@@ -26,14 +26,23 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# CORS — allow React dev servers (Vite 5173, CRA 3000) and any localhost
-CORS(app, resources={r"/api/*": {
+# CORS — allow React dev servers and production frontend
+frontend_url = os.getenv("PRODUCTION_FRONTEND_URL")
+if frontend_url:
+    frontend_url = frontend_url.rstrip("/")
+
+CORS(app, resources={r"/*": {
     "origins": [
         "http://localhost:5173",
         "http://localhost:3000",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:3000",
-        os.getenv("PRODUCTION_FRONTEND_URL"),
+        frontend_url,
+    ] if frontend_url else [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:3000",
     ],
     "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     "allow_headers": ["Content-Type", "Authorization"],
